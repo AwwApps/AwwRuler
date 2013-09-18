@@ -5,5 +5,5 @@ A pixel meter print out generator using the dpi of your actual screen as referen
 
 ## Credits
 
-dpi calculation - https://github.com/LeaVerou/dpi
-PDF library  - https://github.com/MrRio/jsPDF
+* dpi calculation - https://github.com/LeaVerou/dpi
+* PDF library  - https://github.com/MrRio/jsPDF
