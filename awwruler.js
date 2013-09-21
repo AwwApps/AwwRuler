@@ -11,7 +11,7 @@ function createPDF(){
 	//Config	
 	doc.setLineWidth(0.01);
 	doc.setFont("helvetica");
-	doc.setFontType("bold");
+	doc.setFontStyle("bold");
 	doc.setFontSize(8);
 
 	var offSetX = 1.5;
@@ -28,7 +28,7 @@ function createPDF(){
 	var markXshort = pixelInCentimeter;
 	var markText;
 
-	//Draw Ruler Marks
+	//Ruler Marks
 	var i = 0;
 
 	var lineStartX = offSetX;
@@ -39,7 +39,12 @@ function createPDF(){
 		markX = pixelInCentimeter * i * 100;
 		doc.line(offSetX + markX, offSetY + lineLong, offSetX + markX, offSetY);	
 		
-		markText = i * 100;
+		if (pixelInCentimeter * i * 100 > maxWidth){
+			markText = ((i * 100)+ "px")
+		} else {
+			markText = i * 100;	
+		}
+
 		doc.text (offSetX + textOffsetX + markX, offSetY + textOffsetY + lineLong, markText.toString());		
 		lineEndX = offSetX + markX;
 		i++;
@@ -51,14 +56,22 @@ function createPDF(){
 
 		markXshort = pixelInCentimeter * i * 50;
 		doc.line(offSetX + markXshort, offSetY + lineShort, offSetX + markXshort, offSetY);	
-		i =+ i+2;
+		i = i+2;
 	}
+
+	//Ruler Box
+	doc.setFontStyle("bold");
+	var textAnchorY = offSetY + 2.5;
+	var textAnchorOne = (offSetX + maxWidth) / 2;
+	doc.text (textAnchorOne, textAnchorY, "Aww Apps");		
 		
-	//Draw Ruler Base Line
-	doc.line(lineStartX, offSetY, lineEndX, offSetY);
-	doc.text (offSetX, offSetY - 0.3, "Happily built for you by Aww Apps");		
+	doc.setFontStyle("normal");
+	var titleText = ("Pixel Ruler "+ dotsPerInch + " dpi");
+	doc.text (textAnchorOne + 1.6, textAnchorY, titleText.toString());
 
-	//Add the Source Note
+	doc.text (offSetX, 28, "Happily built for you by Aww Apps - awwapps.com");
+	doc.rect(lineStartX-0.5, offSetY, maxWidth + offSetX + 2.5, textAnchorY - offSetY + 1);
 
+	//Save File
 	doc.save("AwwRuler_"+dotsPerInch+"_dpi.pdf");
 }
